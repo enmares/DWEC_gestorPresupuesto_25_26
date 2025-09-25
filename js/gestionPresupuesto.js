@@ -2,6 +2,8 @@
 
 // TODO: Variable global
 let presupuesto = 0;
+let gastos = [];
+let idgastos = 0;
 
 function actualizarPresupuesto(value) {
 
@@ -38,6 +40,10 @@ function CrearGasto(numero, cadena) {
             this.valor = value;
             console.log("Tu valor es " + this.valor);
         }
+    },
+
+    mostrarGastoCompleto : function(){
+        console.log("Gasto correspondiente a " + this.descripcion + "con valor " + this.valor + "€");
     }
 }
     return gasto;
@@ -50,6 +56,38 @@ toni.mostrarGasto();
 toni.actualizarDescripcion("Enrique");
 toni.actualizarValor("gfasd");
 
+function listarGastos(){
+    return gastos;
+};
+/*function anyadirGasto(gasto){
+    let gasto = new CrearGasto( 0, "Gasto1")
+    idgastos += 1;
+    gastos.Add();
+};*/
+function anyadirGasto(){};
+function borrarGasto(idGasto){
+    for(let i=0; i < gastos.lenght; i++){
+        if(gastos[i]===idGasto){
+            gastos.RemoveAt(i);
+        }
+    }
+};
+function calcularTotalGastos(){
+
+    let aux=0;
+    let sum=0;
+
+    for(let i=0; i<gastos.length; i++){
+        aux = gastos[i];
+        sum += aux;
+    }
+    return sum;
+};
+
+function calcularBalance(){
+    let gastosTotales = calcularTotalGastos();
+    return presupuesto - gastosTotales;
+};
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -58,5 +96,10 @@ toni.actualizarValor("gfasd");
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
