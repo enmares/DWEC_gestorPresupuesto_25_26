@@ -21,14 +21,13 @@ function mostrarPresupuesto() {
     console.log("Tu presupuesto actual es de " + presupuesto + "€");
 }
 
-function CrearGasto(numero, cadena) {
+function CrearGasto(numero, cadena, tags) {
     
     let gasto = {
     valor : numero,
     descripcion : cadena,
-    mostrarGasto : function(){
-        console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + "€");
-    },
+    etiquetas : tags,
+    fecha : new Date().getTime(),
 
     actualizarDescripcion : function(value){
         this.descripcion = value;
@@ -45,40 +44,47 @@ function CrearGasto(numero, cadena) {
     mostrarGastoCompleto : function(){
         console.log("Gasto correspondiente a " + this.descripcion + "con valor " + this.valor + "€");
     }
+    
 }
     return gasto;
 }
 
-actualizarPresupuesto(4);
+/////////////////PRUEBAS OBSOLETAS//////////////////////////////////
+/*actualizarPresupuesto(4);
 mostrarPresupuesto();
 let toni = CrearGasto(90 ,"Toni");
 toni.mostrarGasto();
 toni.actualizarDescripcion("Enrique");
-toni.actualizarValor("gfasd");
+toni.actualizarValor("gfasd");*/
+///////////////////////////////////////////////////////////////////
 
 function listarGastos(){
     return gastos;
 };
-/*function anyadirGasto(gasto){
-    let gasto = new CrearGasto( 0, "Gasto1")
-    idgastos += 1;
-    gastos.Add();
-};*/
-function anyadirGasto(){};
+
+function anyadirGasto(objetoGasto){
+
+    objetoGasto.id = idgastos;
+    idgastos++;
+    gastos.push(objetoGasto);
+};
+
 function borrarGasto(idGasto){
-    for(let i=0; i < gastos.lenght; i++){
-        if(gastos[i]===idGasto){
-            gastos.RemoveAt(i);
-        }
+
+    if(typeof idGasto != 'number' || idGasto < 0){
+        return;
     }
+
+    gastos.splice(idGasto,1);
+
 };
 function calcularTotalGastos(){
 
     let aux=0;
     let sum=0;
 
-    for(let i=0; i<gastos.length; i++){
-        aux = gastos[i];
+    for(let i=0; i < gastos.length; i++){
+        aux = gastos[i].valor;
         sum += aux;
     }
     return sum;
@@ -89,6 +95,14 @@ function calcularBalance(){
     return presupuesto - gastosTotales;
 };
 
+/*
+let gasto1 = CrearGasto(15, "Antonio", 4);
+let gasto2 = CrearGasto(92, "dsads", 5);
+anyadirGasto(gasto1);
+anyadirGasto(gasto2);
+presupuesto= 124;
+console.log(calcularTotalGastos());
+console.log(calcularBalance());*/
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
