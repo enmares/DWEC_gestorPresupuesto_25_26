@@ -1,6 +1,8 @@
+/*
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+
 let presupuesto = 0;
 let gastos = [];
 let idgastos = 0;
@@ -21,11 +23,11 @@ function mostrarPresupuesto() {
     console.log("Tu presupuesto actual es de " + presupuesto + "€");
 }
 
-function CrearGasto(numero, cadena, tags) {
+function CrearGasto(valor, descripcion, tags) {
     
     let gasto = {
-    valor : numero,
-    descripcion : cadena,
+    valor : valor,
+    descripcion : descripcion,
     etiquetas : tags,
     fecha : new Date().getTime(),
 
@@ -47,7 +49,7 @@ function CrearGasto(numero, cadena, tags) {
     
 }
     return gasto;
-}
+}*/
 
 /////////////////PRUEBAS OBSOLETAS//////////////////////////////////
 /*actualizarPresupuesto(4);
@@ -57,7 +59,7 @@ toni.mostrarGasto();
 toni.actualizarDescripcion("Enrique");
 toni.actualizarValor("gfasd");*/
 ///////////////////////////////////////////////////////////////////
-
+/*
 function listarGastos(){
     return gastos;
 };
@@ -93,7 +95,7 @@ function calcularTotalGastos(){
 function calcularBalance(){
     let gastosTotales = calcularTotalGastos();
     return presupuesto - gastosTotales;
-};
+};*/
 
 /*
 let gasto1 = CrearGasto(15, "Antonio", 4);
@@ -104,6 +106,7 @@ presupuesto= 124;
 console.log(calcularTotalGastos());
 console.log(calcularBalance());*/
 
+/*
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -116,4 +119,58 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance
+}*/
+
+// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
+
+// TODO: Variable global
+let presupuesto = 0;
+
+function actualizarPresupuesto(valor) {
+
+    if(valor > 0){
+        presupuesto = valor;
+        return presupuesto;
+    }
+
+    return -1;
 }
+
+function mostrarPresupuesto() {
+    return "Tu presupuesto actual es de "+ presupuesto +" €";
+}
+
+function CrearGasto(descripcion, valor) {
+
+    this.descripcion = descripcion;
+
+    if(valor > 0)
+        this.valor = valor;
+    else
+        this.valor = 0;
+
+    this.mostrarGasto = function(){
+        return "Gasto correspondiente a "+ this.descripcion +" con valor "+ this.valor +" €";
+    }
+
+    this.actualizarValor = function(value){
+        if(value > 0){
+            this.valor = value;
+        }
+    }
+
+    this.actualizarDescripcion = function(desc){
+        this.descripcion = desc;
+    }
+}
+
+// NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
+// Las funciones y objetos deben tener los nombres que se indican en el enunciado
+// Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
+export   {
+    mostrarPresupuesto,
+    actualizarPresupuesto,
+    CrearGasto
+}
+
+
