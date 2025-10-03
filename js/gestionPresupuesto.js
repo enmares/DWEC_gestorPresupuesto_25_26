@@ -21,10 +21,25 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de "+ presupuesto +" €";
 }
 
-function CrearGasto(descripcion, valor, tags) {
+function CrearGasto(descripcion, valor, fecha, ...tags) {
 
-    this.etiquetas = tags;
     this.descripcion = descripcion;
+
+    if(Date.parse(fecha) == NaN || fecha == undefined)
+    {
+        this.fecha = new Date();
+    }
+    else{
+        this.fecha = Date.parse(fecha);
+    }
+
+    if(tags == undefined || tags.length == 0)
+    {
+        this.etiquetas = [];
+    }
+    else{
+        this.etiquetas = tags;
+    }
 
     if(valor > 0)
         this.valor = valor;
@@ -56,14 +71,35 @@ function CrearGasto(descripcion, valor, tags) {
 
     this.borrarEtiquetas = function(...arrayEtiquetas){
 
-        let index = 0; /*CONTINUAR POR AQUÍ!!!!*/
-
-        for(let i=arrayEtiquetas.length -1; i >= 0; i--)
+        for(let i = arrayEtiquetas.length-1; i>=0; i--)
         {
-
-            if(this.etiquetas.includes(arrayEtiquetas[i])){
+            if(this.etiquetas.includes(arrayEtiquetas[i]))
+            {
+                let index = this.etiquetas.indexOf(arrayEtiquetas[i])
                 this.etiquetas.splice(index,1);
             }
+        }
+    }
+    
+    this.mostrarGastoCompleto = function() {
+
+        let fecha = new Date(this.fecha);
+        let res = "";
+
+        for(let i=0; i<this.etiquetas.length; i++)
+        {
+            res += `- ${this.etiquetas[i]}\n`
+        }
+
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fecha.toLocaleString()}\nEtiquetas:\n` + res;
+    }
+
+    this.actualizarFecha = function(fecha) {
+        if(isNaN(Date.parse(fecha)) || fecha == undefined){
+            return;
+        }
+        else{
+            this.fecha = Date.parse(fecha);
         }
     }
 }
@@ -108,12 +144,13 @@ function calcularBalance(){
 };
 
 /*
-let gasto1 = new CrearGasto("Antonio", 4);
-let gasto2 = new CrearGasto("dsads", 5);
-console.log(gasto1.valor);
-anyadirGasto(gasto1);
-anyadirGasto(gasto2);
+let tags = ["E1", "E2", "E3"]
+
+let gasto1 = new CrearGasto("Antonio", 4, tags, Date.now());
+console.log(gasto1.mostrarGastoCompleto())
 presupuesto= 124;*/
+
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
