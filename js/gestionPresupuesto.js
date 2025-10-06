@@ -102,6 +102,21 @@ function CrearGasto(descripcion, valor, fecha, ...tags) {
             this.fecha = Date.parse(fecha);
         }
     }
+
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        
+        let fecha = new Date(this.fecha);
+
+        if(periodo === "dia"){
+            return fecha.getFullYear() + '-' + (fecha.getMonth()+1) + '-' + fecha.getDay();
+        }
+        else if(periodo === "anyo"){
+            return fecha.getFullYear();
+        }
+        else if(periodo === "mes"){
+            return fecha.getFullYear() + '-' + (fecha.getMonth()+1)
+        }
+    }
 }
 
 function listarGastos(){
@@ -143,12 +158,26 @@ function calcularBalance(){
     return presupuesto - gastosTotales;
 };
 
+function filtrarGastos(){
+
+}
+
+function agruparGastos(){
+
+}
+
+let date = new Date('2021-12-31');
+console.log(date.getMonth());
+console.log(date.getFullYear());
+console.log(date.getDay());
+
 /*
 let tags = ["E1", "E2", "E3"]
 
 let gasto1 = new CrearGasto("Antonio", 4, tags, Date.now());
-console.log(gasto1.mostrarGastoCompleto())
+console.log(gasto1.obtenerPeriodoAgrupacion("mes"))
 presupuesto= 124;*/
+
 
 
 
@@ -164,7 +193,9 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
 
 
