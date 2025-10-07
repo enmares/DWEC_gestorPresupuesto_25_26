@@ -106,15 +106,24 @@ function CrearGasto(descripcion, valor, fecha, ...tags) {
     this.obtenerPeriodoAgrupacion = function(periodo){
         
         let fecha = new Date(this.fecha);
+        let dia = fecha.getDate();
+        let mes = fecha.getMonth()+ 1;
+
+        if(dia < 10){
+            dia = '0'+ dia;
+        }
+        if(mes <10){
+            mes = '0' + mes;
+        }
 
         if(periodo === "dia"){
-            return fecha.getFullYear() + '-' + (fecha.getMonth()+1) + '-' + fecha.getDay();
+            return fecha.getFullYear() + '-' + mes + '-' + dia;
         }
         else if(periodo === "anyo"){
             return fecha.getFullYear();
         }
         else if(periodo === "mes"){
-            return fecha.getFullYear() + '-' + (fecha.getMonth()+1)
+            return fecha.getFullYear() + '-' + mes;
         }
     }
 }
