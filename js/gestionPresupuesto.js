@@ -167,8 +167,25 @@ function calcularBalance(){
     return presupuesto - gastosTotales;
 };
 
-function filtrarGastos(){
+function filtrarGastos(objeto){
+    let objetoGastoResultado = new CrearGasto();
+    let arrayObjeto = [];
+    let resultado = [];
+    for(let i=0; i<Object.keys(objeto).length; i++)
+    {
+        arrayObjeto.push(Object.values(objeto)[i]);
+    }
 
+    for(let i=0; i < arrayObjeto.length; i++){
+
+        resultado = arrayObjeto.filter(function(fecha){
+            return !isNaN(Date.parse(fecha));
+        });
+        resultado = arrayObjeto.filter(function(descripcion){
+            return texto.to;
+        })
+    }
+    return resultado;
 }
 
 function agruparGastos(){
@@ -186,6 +203,8 @@ let tags = ["E1", "E2", "E3"]
 let gasto1 = new CrearGasto("Antonio", 4, tags, Date.now());
 console.log(gasto1.obtenerPeriodoAgrupacion("mes"))
 presupuesto= 124;*/
+
+console.log(filtrarGastos({fechaDesde: "2021-10-10", fechaHasta: "2022-11-11"}).fechaDesde);
 
 
 
