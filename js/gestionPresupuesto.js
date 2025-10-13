@@ -168,22 +168,47 @@ function calcularBalance(){
 };
 
 function filtrarGastos(objeto){
-    let objetoGastoResultado = new CrearGasto();
-    let arrayObjeto = [];
+
+    let arrayGastos = [];
     let resultado = [];
-    for(let i=0; i<Object.keys(objeto).length; i++)
+
+    //Esto hace una copia de gastos[]
+    
+    for(let i=0; i<gastos.length; i++)
     {
-        arrayObjeto.push(Object.values(objeto)[i]);
+        arrayGastos.push(gastos[i]);
     }
 
-    for(let i=0; i < arrayObjeto.length; i++){
+    //Aquí empiezan los filter
 
-        resultado = arrayObjeto.filter(function(fecha){
-            return !isNaN(Date.parse(fecha));
+    for(let i=0; i < arrayGastos.length; i++){
+
+        resultado = arrayGastos.filter(function(fechaDesde){
+            return !isNaN(Date.parse(fechaDesde));
         });
-        resultado = arrayObjeto.filter(function(descripcion){
-            return texto.to;
+
+        resultado = arrayGastos.filter(function(fechaHasta){
+            return !isNaN(Date.parse(fechaHasta));
+        });
+
+        resultado = arrayGastos.filter(function(valorMinimo){
+            return arrayGastos[i].valor >= valorMinimo;
+        });
+
+        resultado = arrayGastos.filter(function(valorMaximo){
+            return arrayGastos[i].valor <= valorMaximo;
+        });
+
+        resultado = arrayGastos.filter(function(descripcion){
+            return arrayGastos[i].descripcion.toLowerCase().includes(descripcion.toLowerCase());
+        });
+
+        resultado = arrayGastos.filter(function(etiquetasTiene){
+            return arrayGastos[i].etiquetas.includes(...etiquetasTiene);
         })
+    }
+    if(resultado.length < 1){
+        return gastos;
     }
     return resultado;
 }
@@ -197,14 +222,18 @@ console.log(date.getMonth());
 console.log(date.getFullYear());
 console.log(date.getDay());
 
-/*
+
 let tags = ["E1", "E2", "E3"]
 
-let gasto1 = new CrearGasto("Antonio", 4, tags, Date.now());
+let gasto1 = new CrearGasto("Antonio Patata", 4, tags, Date.now());
 console.log(gasto1.obtenerPeriodoAgrupacion("mes"))
-presupuesto= 124;*/
+presupuesto= 124;
 
-console.log(filtrarGastos({fechaDesde: "2021-10-10", fechaHasta: "2022-11-11"}).fechaDesde);
+
+
+gastos.push(gasto1);
+
+console.log(filtrarGastos({descripcionContiene:"patata"}));
 
 
 
