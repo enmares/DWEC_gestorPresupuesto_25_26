@@ -172,6 +172,7 @@ function filtrarGastos(objeto){
     let arrayGastos = [];
     let resultado = [];
     let fechaDesde;
+    let fechaHasta;
 
     //Esto hace una copia de gastos[]
     
@@ -180,54 +181,66 @@ function filtrarGastos(objeto){
         arrayGastos.push(gastos[i]);
     }
 
-    if(!isNaN(Date.parse(objeto.fechaDesde))){
+    if (!isNaN(Date.parse(objeto.fechaDesde))) {
         fechaDesde = new Date(objeto.fechaDesde);
     }
-    else{
-        fechaDesde = new Date();
+    if (!isNaN(Date.parse(objeto.fechaHasta))) {
+        fechaHasta = new Date(objeto.fechaHasta);
     }
+
     //Aquí empiezan los filter
 
- 
-    resultado = arrayGastos.filter(function(gasto){
+    resultado = arrayGastos.filter(function(gasto) {
+        if (!fechaDesde) return true;
         let gastoDate = new Date(gasto.fecha);
-        if (isNaN(gastoDate) || isNaN(fechaDesde)) return false;
+        if (isNaN(gastoDate)) return false;
         return gastoDate >= fechaDesde;
     });
 
+    resultado = resultado.filter(function(gasto) {
+        if (!fechaHasta) return true;
+        let gastoDate = new Date(gasto.fecha);
+        if (isNaN(gastoDate)) return false;
+        return gastoDate <= fechaHasta;
+    });
+
     resultado = resultado.filter(function(gasto){
-        if(!isNaN(Date.parse(gasto.fecha)) && !isNaN(Date.parse(objeto.fechaHasta))){
-            let date1 = new Date(gasto.fecha);
-            let date2 = new Date(objeto.fechaHasta)
-            return date1 <= date2;
+        if((typeof objeto.valorMinimo === "number")){
+            if(typeof gasto.valor !== "number") return false;
+            return gasto.valor >= objeto.valorMinimo;
+        }
+        else{
+            return true;
         }
     });
 
-    resultado = resultado.filter(function(gasto){
-        return gasto.valor >= objeto.valorMinimo;
-    });
-
-    resultado = resultado.filter(function(gasto){
-        return gasto.valor <= objeto.valorMaximo;
-    });
-
-    resultado = resultado.filter(function(gasto){
-        if(objeto.descripcionContiene != null){
-            let desc1 = gasto.descripcion.toLowerCase();
-            let desc2 = objeto.descripcionContiene.toLowerCase();
-            return desc1.includes(desc2)
+    // valor maximo (aplicar solo si el criterio es número)
+    resultado = resultado.filter(function(gasto) {
+        if (typeof objeto.valorMaximo === "number") {
+            if (typeof gasto.valor !== "number") return false;
+            return gasto.valor <= objeto.valorMaximo;
         }
+        return true;
     });
 
-    resultado = resultado.filter(function(gasto){
-        if(objeto.etiquetasTiene != undefined && objeto.etiquetasTiene.length >= 1 ){
-            return gasto.etiquetas.some(elemento => objeto.etiquetasTiene.includes(elemento))
+    // descripcion contiene (solo si existe criterio no nulo y no vacío)
+    resultado = resultado.filter(function(gasto) {
+        if (objeto.descripcionContiene != null && String(objeto.descripcionContiene).trim() !== "") {
+            const desc1 = String(gasto.descripcion || "").toLowerCase();
+            const desc2 = String(objeto.descripcionContiene).toLowerCase();
+            return desc1.includes(desc2);
         }
+        return true;
     });
 
-    if(resultado.length < 1){
-        return gastos;
-    }
+    // etiquetas (solo si existe array no vacío)
+    resultado = resultado.filter(function(gasto) {
+        if (Array.isArray(objeto.etiquetasTiene) && objeto.etiquetasTiene.length > 0) {
+            if (!Array.isArray(gasto.etiquetas)) return false;
+            return gasto.etiquetas.some(elemento => objeto.etiquetasTiene.includes(elemento));
+        }
+        return true;
+    });
     return resultado;
 }
 
@@ -245,6 +258,8 @@ console.log(date.getDay());
 let tags = ["E1", "E2", "E3"]
 
 let gasto1 = new CrearGasto("Antonio Patata", 4, tags, Date.now());
+let gasto2 = new CrearGasto("Anta", 7, tags, Date.now());
+let gasto3 = new CrearGasto("Toni", 42, tags, Date.now());
 console.log(gasto1.obtenerPeriodoAgrupacion("mes"))
 presupuesto= 124;
 
