@@ -171,6 +171,7 @@ function filtrarGastos(objeto){
 
     let arrayGastos = [];
     let resultado = [];
+    let fechaDesde;
 
     //Esto hace una copia de gastos[]
     
@@ -179,34 +180,51 @@ function filtrarGastos(objeto){
         arrayGastos.push(gastos[i]);
     }
 
+    if(!isNaN(Date.parse(objeto.fechaDesde))){
+        fechaDesde = new Date(objeto.fechaDesde);
+    }
+    else{
+        fechaDesde = new Date();
+    }
     //Aquí empiezan los filter
 
-    for(let i=0; i < arrayGastos.length; i++){
+ 
+    resultado = arrayGastos.filter(function(gasto){
+        let gastoDate = new Date(gasto.fecha);
+        if (isNaN(gastoDate) || isNaN(fechaDesde)) return false;
+        return gastoDate >= fechaDesde;
+    });
 
-        resultado = arrayGastos.filter(function(fechaDesde){
-            return !isNaN(Date.parse(fechaDesde));
-        });
+    resultado = resultado.filter(function(gasto){
+        if(!isNaN(Date.parse(gasto.fecha)) && !isNaN(Date.parse(objeto.fechaHasta))){
+            let date1 = new Date(gasto.fecha);
+            let date2 = new Date(objeto.fechaHasta)
+            return date1 <= date2;
+        }
+    });
 
-        resultado = arrayGastos.filter(function(fechaHasta){
-            return !isNaN(Date.parse(fechaHasta));
-        });
+    resultado = resultado.filter(function(gasto){
+        return gasto.valor >= objeto.valorMinimo;
+    });
 
-        resultado = arrayGastos.filter(function(valorMinimo){
-            return arrayGastos[i].valor >= valorMinimo;
-        });
+    resultado = resultado.filter(function(gasto){
+        return gasto.valor <= objeto.valorMaximo;
+    });
 
-        resultado = arrayGastos.filter(function(valorMaximo){
-            return arrayGastos[i].valor <= valorMaximo;
-        });
+    resultado = resultado.filter(function(gasto){
+        if(objeto.descripcionContiene != null){
+            let desc1 = gasto.descripcion.toLowerCase();
+            let desc2 = objeto.descripcionContiene.toLowerCase();
+            return desc1.includes(desc2)
+        }
+    });
 
-        resultado = arrayGastos.filter(function(descripcion){
-            return arrayGastos[i].descripcion.toLowerCase().includes(descripcion.toLowerCase());
-        });
+    resultado = resultado.filter(function(gasto){
+        if(objeto.etiquetasTiene != undefined && objeto.etiquetasTiene.length >= 1 ){
+            return gasto.etiquetas.some(elemento => objeto.etiquetasTiene.includes(elemento))
+        }
+    });
 
-        resultado = arrayGastos.filter(function(etiquetasTiene){
-            return arrayGastos[i].etiquetas.includes(...etiquetasTiene);
-        })
-    }
     if(resultado.length < 1){
         return gastos;
     }
@@ -217,6 +235,7 @@ function agruparGastos(){
 
 }
 
+/*
 let date = new Date('2021-12-31');
 console.log(date.getMonth());
 console.log(date.getFullYear());
@@ -233,7 +252,7 @@ presupuesto= 124;
 
 gastos.push(gasto1);
 
-console.log(filtrarGastos({descripcionContiene:"patata"}));
+console.log(filtrarGastos({descripcionContiene:"patata"}));*/
 
 
 
