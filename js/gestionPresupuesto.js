@@ -244,22 +244,23 @@ function filtrarGastos(objeto){
     return resultado;
 }
 
-function agruparGastos(periodo="mes", etiquetas, fechaDesde, fechaHasta){
-
-    if(!Array.isArray(etiquetas) || etiquetas.length == 0){
-        etiquetas = []
-    }
-    if(!Date.isNaN(Date.parse(fechaDesde))){
-        
-    }
-    if(!Date.isNaN(Date.parse(fechaHasta))){
-        
-    }
+function agruparGastos(periodo='mes', etiquetas, fechaDesde, fechaHasta){
 
     let arrayFiltrado = filtrarGastos(periodo, etiquetas, fechaDesde, fechaHasta);
+    let objetoVacio = {};
 
-    let objetoVacio = arrayFiltrado.reduce(function(acc, item) {
-        let per = item.obtenerPeriodoAgrupacion(periodo)
+    objetoVacio = arrayFiltrado.reduce(function(acc, item) {
+        let per = item.obtenerPeriodoAgrupacion(periodo);
+
+        if(per in acc){
+            acc[per] += item.valor;
+        }
+        else{
+            acc[per] = item.valor;
+        }
+
+        return acc;
+
     }, {});
     return objetoVacio;
 }
@@ -283,7 +284,8 @@ presupuesto= 124;
 
 gastos.push(gasto1);
 
-console.log(filtrarGastos({descripcionContiene:"patata"}));*/
+console.log(filtrarGastos({descripcionContiene:"patata"}));
+console.log(agruparGastos("mes", tags));*/
 
 
 
