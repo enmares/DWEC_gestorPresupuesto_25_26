@@ -244,8 +244,24 @@ function filtrarGastos(objeto){
     return resultado;
 }
 
-function agruparGastos(){
+function agruparGastos(periodo="mes", etiquetas, fechaDesde, fechaHasta){
 
+    if(!Array.isArray(etiquetas) || etiquetas.length == 0){
+        etiquetas = []
+    }
+    if(!Date.isNaN(Date.parse(fechaDesde))){
+        
+    }
+    if(!Date.isNaN(Date.parse(fechaHasta))){
+        
+    }
+
+    let arrayFiltrado = filtrarGastos(periodo, etiquetas, fechaDesde, fechaHasta);
+
+    let objetoVacio = arrayFiltrado.reduce(function(acc, item) {
+        let per = item.obtenerPeriodoAgrupacion(periodo)
+    }, {});
+    return objetoVacio;
 }
 
 /*
