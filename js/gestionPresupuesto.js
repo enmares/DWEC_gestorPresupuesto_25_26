@@ -214,7 +214,6 @@ function filtrarGastos(objeto){
         }
     });
 
-    // valor maximo (aplicar solo si el criterio es número)
     resultado = resultado.filter(function(gasto) {
         if (typeof objeto.valorMaximo === "number") {
             if (typeof gasto.valor !== "number") return false;
@@ -223,7 +222,6 @@ function filtrarGastos(objeto){
         return true;
     });
 
-    // descripcion contiene (solo si existe criterio no nulo y no vacío)
     resultado = resultado.filter(function(gasto) {
         if (objeto.descripcionContiene != null && String(objeto.descripcionContiene).trim() !== "") {
             const desc1 = String(gasto.descripcion || "").toLowerCase();
@@ -233,7 +231,6 @@ function filtrarGastos(objeto){
         return true;
     });
 
-    // etiquetas (solo si existe array no vacío)
     resultado = resultado.filter(function(gasto) {
         if (Array.isArray(objeto.etiquetasTiene) && objeto.etiquetasTiene.length > 0) {
             if (!Array.isArray(gasto.etiquetas)) return false;
@@ -246,7 +243,13 @@ function filtrarGastos(objeto){
 
 function agruparGastos(periodo='mes', etiquetas, fechaDesde, fechaHasta){
 
-    let arrayFiltrado = filtrarGastos(periodo, etiquetas, fechaDesde, fechaHasta);
+    let objetoFiltrado = {
+        etiquetasTiene : etiquetas,
+        fechaDesde : fechaDesde,
+        fechaHasta :fechaHasta
+    }
+
+    let arrayFiltrado = filtrarGastos(objetoFiltrado, periodo);
     let objetoVacio = {};
 
     objetoVacio = arrayFiltrado.reduce(function(acc, item) {
