@@ -5,31 +5,46 @@ function mostrarDatoEnId(idElemento, valor){
 }
 
 function mostrarGastoWeb(idElemento, ...gasto){
-    
-    for(let i=0; i < gasto.length; i++){
 
-        let elemento = document.getElementById(idElemento);
+    let elemento = document.getElementById(idElemento);
+    let objetoGasto = gasto[0];
+    
+    for(let i=0; i < objetoGasto.length; i++){
 
-        document.createElement('div').className = 'gasto-descripcion';
-        let gastoFecha = document.createElement('div').className = 'gasto-fecha';
-        let gastoValor = document.createElement('div').className = 'gasto-valor';
-        let gastoEtiquetas = document.createElement('div').className = 'gasto-etiquetas';
+        let divGasto = document.createElement('div');
+        divGasto.className = 'gasto';
+
+        let gastoDesc = document.createElement('div');
+        gastoDesc.className = 'gasto-descripcion';
+        gastoDesc.textContent = objetoGasto[i].descripcion;
+
+        let gastoFecha = document.createElement('div');
+        gastoFecha.className = 'gasto-fecha';
+        gastoFecha.textContent = objetoGasto[i].fecha;
+
+        let gastoValor = document.createElement('div');
+        gastoValor.className = 'gasto-valor';
+        gastoValor.textContent = objetoGasto[i].valor;
+
+        let gastoEtiquetas = document.createElement('div');
+        gastoEtiquetas.className = 'gasto-etiquetas';
     
-        document.getElementByClassName('gasto-descripcion').textContent = gasto[i].descripcion;
-        document.getElementByClassName('gasto-fecha').textContent = gasto[i].fecha;
-        document.getElementByClassName('gasto-valor').textContent = gasto[i].valor;
-        
-        elemento.appendChild(gastoDesc);
-        elemento.appendChild(gastoFecha);
-        elemento.appendChild(gastoValor);
-    
-        for(let i=0; i<gasto[i].etiquetas.length; i++){
-    
-            let spanFecha = document.createElement('span').className = 'gasto-etiquetas-etiqueta';
-            gastoEtiquetas.appendChild(spanFecha).innerHTML = gasto.etiquetas[i];
+        divGasto.appendChild(gastoDesc);
+        divGasto.appendChild(gastoFecha);
+        divGasto.appendChild(gastoValor);
+
+        for(let o=0; o<objetoGasto[i].etiquetas.length; o++){
+
+            let spanFecha = document.createElement('span');
+            spanFecha.className = 'gasto-etiquetas-etiqueta';
+            gastoEtiquetas.appendChild(spanFecha).innerHTML = objetoGasto[i].etiquetas[o];
+            divGasto.appendChild(gastoEtiquetas);
+
         }
-    
-        elemento.appendChild(gastoEtiquetas);
+
+
+        elemento.appendChild(divGasto);
+        
     }
 
 }

@@ -23,4 +23,5 @@ funcs2.anyadirGasto(gasto6);
 funcs.mostrarDatoEnId('gastos-totales', funcs2.calcularTotalGastos());
 funcs.mostrarDatoEnId('balance-total', funcs2.calcularBalance());
 funcs.mostrarGastoWeb('listado-gastos-completo', funcs2.listarGastos());
+funcs.mostrarGastoWeb();
 
