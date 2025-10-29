@@ -61,7 +61,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         h1gasto.innerHTML = 'Gastos agrupados por año';
     }
     else{
-        h1gasto.innerHTML = 'Gastos agrupados por ' + periodo;
+        h1gasto.innerHTML = `Gastos agrupados por ${periodo}`;
     }
 
     agrupBox.appendChild(h1gasto);
