@@ -27,3 +27,6 @@ funcs.mostrarGastoWeb('listado-gastos-filtrado-1', funcs2.filtrarGastos({fechaDe
 funcs.mostrarGastoWeb('listado-gastos-filtrado-2', funcs2.filtrarGastos({valorMinimo: 50}));
 funcs.mostrarGastoWeb('listado-gastos-filtrado-3', funcs2.filtrarGastos({etiquetasTiene: ["seguros"], valorMinimo:200}));
 funcs.mostrarGastoWeb('listado-gastos-filtrado-4', funcs2.filtrarGastos({etiquetasTiene: ["comida", "transporte"], valorMaximo:50}));
+funcs.mostrarGastosAgrupadosWeb('agrupacion-dia', funcs2.agruparGastos('dia'));
+funcs.mostrarGastosAgrupadosWeb('agrupacion-dia', funcs2.agruparGastos('mes'));
+funcs.mostrarGastosAgrupadosWeb('agrupacion-dia', funcs2.agruparGastos('anyo'));
