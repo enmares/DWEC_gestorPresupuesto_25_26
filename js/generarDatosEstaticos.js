@@ -23,5 +23,7 @@ funcs2.anyadirGasto(gasto6);
 funcs.mostrarDatoEnId('gastos-totales', funcs2.calcularTotalGastos());
 funcs.mostrarDatoEnId('balance-total', funcs2.calcularBalance());
 funcs.mostrarGastoWeb('listado-gastos-completo', funcs2.listarGastos());
-funcs.mostrarGastoWeb();
-
+funcs.mostrarGastoWeb('listado-gastos-filtrado-1', funcs2.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
+funcs.mostrarGastoWeb('listado-gastos-filtrado-2', funcs2.filtrarGastos({valorMinimo: 50}));
+funcs.mostrarGastoWeb('listado-gastos-filtrado-3', funcs2.filtrarGastos({etiquetasTiene: ["seguros"], valorMinimo:200}));
+funcs.mostrarGastoWeb('listado-gastos-filtrado-4', funcs2.filtrarGastos({etiquetasTiene: ["comida", "transporte"], valorMaximo:50}));
