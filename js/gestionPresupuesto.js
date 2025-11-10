@@ -1,8 +1,6 @@
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
-// TODO: Variable global
-
 let presupuesto = 0;
 let gastos = [];
 let idgastos = 0;
@@ -267,6 +265,7 @@ function agruparGastos(periodo='mes', etiquetas, fechaDesde, fechaHasta){
     }, {});
     return objetoVacio;
 }
+
 
 /*
 let date = new Date('2021-12-31');
