@@ -108,12 +108,71 @@ function actualizarPresupuestoWeb(){
     repintar();
 }
 
+function nuevoGastoWeb(){
+    let stringDescripcion = prompt('Introduce una descripción');
+    let stringValor = prompt('Introduce el valor');
+    let stringFecha = prompt('Introduce la fecha del gasto');
+    let stringEtiquetas = prompt('Introduce las etiquetas separadas por comas. Ej: et1,et2,et3');
+
+    let valor = parseFloat(stringValor);
+    let etiquetas = stringToArray(stringEtiquetas);
+
+    let gastoNuevo = new gesPresupuesto.CrearGasto(stringDescripcion, valor, stringFecha, etiquetas);
+    gesPresupuesto.anyadirGasto(gastoNuevo);
+    repintar();
+}
+
+function stringToArray(string){
+    
+    let aux = '';
+    let array = [];
+
+    for(let i=0; i<string.length; i++){
+
+        if(string[i] == ','){
+            array.push(aux);
+            aux = '';
+        }
+        else{
+            aux += string[i];
+        }
+
+        if(i == string.length-1){
+            array.push(aux);
+        }
+    }
+    return array;
+}
+
+/*
+function EditarHandle(){
+    
+    //solo puede tener el método handleEvente en el this la func constructora
+    this.handleEvent = function(evento){
+        this.gasto;
+        
+    }
+}
+
+let objetoEditar = new EditarHandle();
+objetoEditar.gasto = gasto; //este último 'gasto' es un objeto*/
+
+let botonEditar = document.createElement('button');
+botonEditar.innerText = 'Editar gasto';
+document.getElementById('controlesprincipales').append(botonEditar);
+//botonEditar.addEventListener("click",objetoEditar);
+
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
+
+const botonAnyadirGasto = document.getElementById('anyadirgasto');
+botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    nuevoGastoWeb,
+    //EditarHandle
 }
