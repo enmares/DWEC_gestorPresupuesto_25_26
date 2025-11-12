@@ -47,9 +47,14 @@ function mostrarGastoWeb(idElemento, ...gasto){
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
         let botonEditar = document.createElement('button');
+        botonEditar.type = "button";
         botonEditar.innerHTML = 'Editar gasto';
         divGasto.appendChild(botonEditar);
-        //botonEditar.addEventListener("click",);
+
+        let objetoManejador = new EditarHandle();
+        objetoManejador.gasto = objetoGasto[i]; 
+
+        botonEditar.addEventListener("click", objetoManejador);
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
@@ -150,6 +155,18 @@ function stringToArray(string){
         }
     }
     return array;
+}
+
+function EditarHandle(){
+
+    this.handleEvent = function(e){
+        this.gasto.descripcion = prompt('Introduce la nueva descripción', this.gasto.descripcion);
+        
+        let valorString = prompt('Introduce el nuevo valor', this.gasto.valor)
+        this.gasto.valor = parseFloat(valorString);
+
+        repintar();
+    }
 }
 
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
