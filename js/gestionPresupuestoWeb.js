@@ -44,6 +44,14 @@ function mostrarGastoWeb(idElemento, ...gasto){
 
         }
 
+        //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
+
+        let botonEditar = document.createElement('button');
+        botonEditar.innerHTML = 'Editar gasto';
+        divGasto.appendChild(botonEditar);
+        //botonEditar.addEventListener("click",);
+
+        //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
         elemento.appendChild(divGasto);
         
@@ -143,24 +151,6 @@ function stringToArray(string){
     }
     return array;
 }
-
-/*
-function EditarHandle(){
-    
-    //solo puede tener el método handleEvente en el this la func constructora
-    this.handleEvent = function(evento){
-        this.gasto;
-        
-    }
-}
-
-let objetoEditar = new EditarHandle();
-objetoEditar.gasto = gasto; //este último 'gasto' es un objeto*/
-
-let botonEditar = document.createElement('button');
-botonEditar.innerText = 'Editar gasto';
-document.getElementById('controlesprincipales').append(botonEditar);
-//botonEditar.addEventListener("click",objetoEditar);
 
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
