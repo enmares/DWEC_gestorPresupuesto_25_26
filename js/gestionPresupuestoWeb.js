@@ -42,6 +42,14 @@ function mostrarGastoWeb(idElemento, ...gasto){
             gastoEtiquetas.appendChild(spanFecha).innerHTML = objetoGasto[i].etiquetas[o];
             divGasto.appendChild(gastoEtiquetas);
 
+            /* BORRAR ETIQUETA */
+            
+            let objetoBorradoEtiqueta = new BorrarEtiquetasHandle();
+            objetoBorradoEtiqueta.gasto = objetoGasto[i];
+            objetoBorradoEtiqueta.etiqueta = objetoGasto[i].etiquetas[o];
+
+            spanFecha.addEventListener("click", objetoBorradoEtiqueta);
+        
         }
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
@@ -71,10 +79,6 @@ function mostrarGastoWeb(idElemento, ...gasto){
         objetoBorrador.gasto = objetoGasto[i];
 
         botonBorrar.addEventListener("click", objetoBorrador);
-
-        /* BORRAR ETIQUETA */
-
-        spanFecha.addEventListener("click", alert);
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
@@ -207,8 +211,9 @@ function BorrarHandle(){
 function BorrarEtiquetasHandle(){
 
     this.handleEvent = function (e){
-
-        this.etiqueta;
+        
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
     }
 }
 
