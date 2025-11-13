@@ -46,6 +46,8 @@ function mostrarGastoWeb(idElemento, ...gasto){
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
+        /* BOTÓN EDITAR */
+
         let botonEditar = document.createElement('button');
         botonEditar.type = "button";
         botonEditar.className = "gasto-editar";
@@ -56,6 +58,23 @@ function mostrarGastoWeb(idElemento, ...gasto){
         objetoManejador.gasto = objetoGasto[i]; 
 
         botonEditar.addEventListener("click", objetoManejador);
+
+        /* BOTÓN BORRAR */
+
+        let botonBorrar = document.createElement('button');
+
+        botonBorrar.className = "gasto-borrar";
+        botonBorrar.innerHTML = "Borrar gasto";
+        divGasto.appendChild(botonBorrar);
+
+        let objetoBorrador = new BorrarHandle();
+        objetoBorrador.gasto = objetoGasto[i];
+
+        botonBorrar.addEventListener("click", objetoBorrador);
+
+        /* BORRAR ETIQUETA */
+
+        spanFecha.addEventListener("click", alert);
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
@@ -172,6 +191,24 @@ function EditarHandle(){
         this.gasto.etiquetas = stringToArray(stringEtiquetas);
 
         repintar();
+    }
+}
+
+function BorrarHandle(){
+
+    this.handleEvent = function (e){
+
+        gesPresupuesto.borrarGasto(this.gasto.id);
+
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(){
+
+    this.handleEvent = function (e){
+
+        this.etiqueta;
     }
 }
 
