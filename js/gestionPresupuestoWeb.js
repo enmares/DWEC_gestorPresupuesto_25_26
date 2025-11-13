@@ -22,7 +22,9 @@ function mostrarGastoWeb(idElemento, ...gasto){
 
         let gastoFecha = document.createElement('div');
         gastoFecha.className = 'gasto-fecha';
-        gastoFecha.textContent = objetoGasto[i].fecha;
+
+        let fechaFormateada = new Date(objetoGasto[i].fecha);
+        gastoFecha.textContent = fechaFormateada.toLocaleDateString();
 
         let gastoValor = document.createElement('div');
         gastoValor.className = 'gasto-valor';
@@ -189,7 +191,8 @@ function EditarHandle(){
         let valorString = prompt('Introduce el nuevo valor', this.gasto.valor)
         this.gasto.valor = parseFloat(valorString);
 
-        this.gasto.fecha = prompt('Introduce la fecha actualizada', this.gasto.fecha);
+        let fechaFormateada = new Date(this.gasto.fecha);
+        this.gasto.fecha = prompt('Introduce la fecha actualizada', fechaFormateada.toLocaleDateString());
 
         let stringEtiquetas = prompt('Introduce las nuevas etiquetas', this.gasto.etiquetas);
         this.gasto.etiquetas = stringToArray(stringEtiquetas);
