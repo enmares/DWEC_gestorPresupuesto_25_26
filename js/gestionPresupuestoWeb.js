@@ -48,6 +48,7 @@ function mostrarGastoWeb(idElemento, ...gasto){
 
         let botonEditar = document.createElement('button');
         botonEditar.type = "button";
+        botonEditar.className = "gasto-editar";
         botonEditar.innerHTML = 'Editar gasto';
         divGasto.appendChild(botonEditar);
 
@@ -165,6 +166,11 @@ function EditarHandle(){
         let valorString = prompt('Introduce el nuevo valor', this.gasto.valor)
         this.gasto.valor = parseFloat(valorString);
 
+        this.gasto.fecha = prompt('Introduce la fecha actualizada', this.gasto.fecha);
+
+        let stringEtiquetas = prompt('Introduce las nuevas etiquetas', this.gasto.etiquetas);
+        this.gasto.etiquetas = stringToArray(stringEtiquetas);
+
         repintar();
     }
 }
@@ -181,5 +187,5 @@ export{
     mostrarGastosAgrupadosWeb,
     repintar,
     nuevoGastoWeb,
-    //EditarHandle
+    EditarHandle
 }
