@@ -82,6 +82,22 @@ function mostrarGastoWeb(idElemento, ...gasto){
 
         botonBorrar.addEventListener("click", objetoBorrador);
 
+        /* BOTÓN EDITAR */
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        let formulario = plantillaFormulario.querySelector("form");
+
+        let botonEditarFormulario = document.createElement('button');
+        botonEditarFormulario.type = "button";
+        botonEditarFormulario.className = "gasto-editar-formulario";
+        botonEditarFormulario.innerHTML = "Editar (formulario)";
+        divGasto.appendChild(botonEditarFormulario);
+
+        let objetoEditorForm = new EditarHandleFormulario();
+        objetoEditorForm.gasto = objetoGasto[i];
+        objetoEditorForm.form = formulario;
+
+        botonEditarFormulario.addEventListener("click", objetoEditorForm);
+
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
         elemento.appendChild(divGasto);
@@ -227,6 +243,23 @@ function CancelarHandle(){
         document.getElementById('anyadirgasto-formulario').disabled = false;
         this.formulario.remove();
         repintar();
+    }
+}
+
+function EditarHandleFormulario(){
+
+    this.handleEvent = function (e){
+        
+        event.currentTarget.append(this.form);
+
+        this.form.addEventListener("submit", function(e){
+
+            event.preventDefault();
+            this.gasto.descripcion = this.form.elements["descripcion"].value;
+            this.gasto.valor = this.form.elements["valor"].value;
+        })
+        
+
     }
 }
 
