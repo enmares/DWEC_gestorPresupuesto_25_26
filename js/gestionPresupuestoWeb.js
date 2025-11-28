@@ -220,6 +220,16 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+function CancelarHandle(){
+
+    this.handleEvent = function (e){
+
+        document.getElementById('anyadirgasto-formulario').disabled = false;
+        this.formulario.remove();
+        repintar();
+    }
+}
+
 function nuevoGastoWebFormulario(){
 
     let botonAnyadirGastoForm = document.getElementById('anyadirgasto-formulario');
@@ -229,6 +239,11 @@ function nuevoGastoWebFormulario(){
     var formulario = plantillaFormulario.querySelector("form");
     let controlesPrincipales = document.getElementById("controlesprincipales");
     controlesPrincipales.append(plantillaFormulario);
+
+    let btnCancelar = document.querySelector('button.cancelar');
+    let btnCancelarForm = new CancelarHandle();
+    btnCancelarForm.formulario = formulario;
+    btnCancelar.addEventListener("click", btnCancelarForm);
 
     formulario.addEventListener("submit",function(e){
 
