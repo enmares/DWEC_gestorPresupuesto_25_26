@@ -266,7 +266,6 @@ function agruparGastos(periodo='mes', etiquetas, fechaDesde, fechaHasta){
     return objetoVacio;
 }
 
-
 /*
 let date = new Date('2021-12-31');
 console.log(date.getMonth());

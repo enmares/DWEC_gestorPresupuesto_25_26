@@ -220,11 +220,24 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+function nuevoGastoWebFormulario(){
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
+    
+
+    let controlesPrincipales = document.getElementById("controlesprincipales");
+    controlesPrincipales.append(plantillaFormulario);
+}
+
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
 
 const botonAnyadirGasto = document.getElementById('anyadirgasto');
 botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
+
+const botonAnyadirGastoForm = document.getElementById('anyadirgasto-formulario');
+botonAnyadirGastoForm.addEventListener("click", nuevoGastoWebFormulario);
 
 export{
     mostrarDatoEnId,
