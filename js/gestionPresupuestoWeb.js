@@ -250,15 +250,27 @@ function EditarHandleFormulario(){
 
     this.handleEvent = function (e){
         
-        event.currentTarget.append(this.form);
+        e.target.append(this.form);
 
-        this.form.addEventListener("submit", function(e){
+        this.form.elements["descripcion"].value = this.gasto.descripcion;
+        this.form.elements["valor"].value = this.gasto.valor;
+        this.form.elements["fecha"].value = this.gasto.fecha;
+        this.form.elements["etiquetas"].value = this.gasto.etiquetas;
 
-            event.preventDefault();
+        this.form.addEventListener("submit", (e)=> {  //si no es con función flecha no pilla el this. de la instancia del objeto gasto
+
+            e.preventDefault();
+            
             this.gasto.descripcion = this.form.elements["descripcion"].value;
             this.gasto.valor = this.form.elements["valor"].value;
+            this.gasto.fecha = this.form.elements["fecha"].value;
+
+            let arrayEtiquetas = stringToArray(this.form.elements["etiquetas"].value);
+            this.gasto.etiquetas = arrayEtiquetas;
+    
+            repintar();
+            
         })
-        
 
     }
 }
