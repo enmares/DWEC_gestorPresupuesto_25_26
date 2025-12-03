@@ -102,6 +102,13 @@ function mostrarGastoWeb(idElemento, ...gasto){
             divGasto.append(formulario);
         })
 
+        /* BOTÓN CANCELAR EDICIÓN */
+        let btnCancelarEdicion = formulario.querySelector("button.cancelar");
+        let objetoCancelarEdicion = new CancelarEditarHandleFormulario();
+        objetoCancelarEdicion.form = formulario;
+
+        btnCancelarEdicion.addEventListener("click", objetoCancelarEdicion);
+
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
         elemento.appendChild(divGasto);
