@@ -267,7 +267,7 @@ function EditarHandleFormulario(){
 
             let valor = Number(this.form.elements["valor"].value);
             this.gasto.valor = valor;
-            
+
             this.gasto.fecha = this.form.elements["fecha"].value;
 
             let arrayEtiquetas = stringToArray(this.form.elements["etiquetas"].value);
@@ -277,6 +277,16 @@ function EditarHandleFormulario(){
             
         })
 
+    }
+}
+
+function CancelarEditarHandleFormulario(){
+
+    this.handleEvent = function (){
+
+        this.form.querySelector("button.cancelar").disabled = false;
+        this.form.remove();
+        repintar();
     }
 }
 
