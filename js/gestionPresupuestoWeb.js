@@ -263,7 +263,14 @@ function EditarHandleFormulario(){
 
         this.form.elements["descripcion"].value = this.gasto.descripcion;
         this.form.elements["valor"].value = this.gasto.valor;
-        this.form.elements["fecha"].value = this.gasto.fecha;
+
+        let fechaObjeto = new Date(this.gasto.fecha);
+        let dia = String(fechaObjeto.getDate()).padStart(2, "0");
+        let mes = String(fechaObjeto.getMonth()+1).padStart(2, "0");
+        let anyo = fechaObjeto.getFullYear();
+        let fechaString = anyo + "-" + mes + "-" + dia;
+
+        this.form.elements["fecha"].value = fechaString;
         this.form.elements["etiquetas"].value = this.gasto.etiquetas;
 
         this.form.addEventListener("submit", (e)=> {  //si no es con función flecha no pilla el this. de la instancia del objeto gasto
@@ -274,7 +281,7 @@ function EditarHandleFormulario(){
 
             let valor = Number(this.form.elements["valor"].value);
             this.gasto.valor = valor;
-
+            
             this.gasto.fecha = this.form.elements["fecha"].value;
 
             let arrayEtiquetas = stringToArray(this.form.elements["etiquetas"].value);
