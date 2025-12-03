@@ -97,6 +97,10 @@ function mostrarGastoWeb(idElemento, ...gasto){
         objetoEditorForm.form = formulario;
 
         botonEditarFormulario.addEventListener("click", objetoEditorForm);
+        botonEditarFormulario.addEventListener("click", function (){
+            botonEditarFormulario.disabled = true;
+            divGasto.append(formulario);
+        })
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
 
@@ -249,8 +253,6 @@ function CancelarHandle(){
 function EditarHandleFormulario(){
 
     this.handleEvent = function (e){
-        
-        e.target.append(this.form);
 
         this.form.elements["descripcion"].value = this.gasto.descripcion;
         this.form.elements["valor"].value = this.gasto.valor;
@@ -262,7 +264,10 @@ function EditarHandleFormulario(){
             e.preventDefault();
             
             this.gasto.descripcion = this.form.elements["descripcion"].value;
-            this.gasto.valor = this.form.elements["valor"].value;
+
+            let valor = Number(this.form.elements["valor"].value);
+            this.gasto.valor = valor;
+            
             this.gasto.fecha = this.form.elements["fecha"].value;
 
             let arrayEtiquetas = stringToArray(this.form.elements["etiquetas"].value);
