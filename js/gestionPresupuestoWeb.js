@@ -341,6 +341,20 @@ function nuevoGastoWebFormulario(){
     
 }
 
+function filtrarGastoWeb(){
+
+    let formulario = document.getElementById('formulario-filtrado');
+
+    formulario.addEventListener("submit",function(){
+
+        event.preventDefault();
+
+
+
+    });
+
+}
+
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
 

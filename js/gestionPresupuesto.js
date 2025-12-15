@@ -266,6 +266,31 @@ function agruparGastos(periodo='mes', etiquetas, fechaDesde, fechaHasta){
     return objetoVacio;
 }
 
+function transformarListadoEtiquetas(string){
+
+    let valoresStringRegex = string.match(/(a-z)/);
+
+    let aux = '';
+    let array = [];
+
+    for(let i=0; i<string.length; i++){
+
+        if(string[i] in valoresStringRegex){
+            array.push(aux);
+            aux = '';
+        }
+        else{
+            aux += string[i];
+        }
+
+        if(i == string.length-1){
+            array.push(aux);
+        }
+    }
+    return array;
+
+}
+
 /*
 let date = new Date('2021-12-31');
 console.log(date.getMonth());
@@ -305,7 +330,8 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
 
 
