@@ -349,7 +349,19 @@ function filtrarGastoWeb(){
 
         event.preventDefault();
 
+        let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+        let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
+        let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;
+        let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiquetasTiene = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
+        if(etiquetasTiene != null || etiquetasTiene != undefined){
+            let etiquetasTieneArray = gesPresupuesto.transformarListadoEtiquetas(etiquetasTiene);
+        }
+
+        gesPresupuesto.filtrarGastos();
+        mostrarGastoWeb();
 
     });
 
@@ -363,6 +375,9 @@ botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
 const botonAnyadirGastoForm = document.getElementById('anyadirgasto-formulario');
 botonAnyadirGastoForm.addEventListener("click", nuevoGastoWebFormulario);
+
+const botonFormularioFiltrado = document.getElementById('formulario-filtrado').querySelector('button');
+botonFormularioFiltrado.addEventListener("click", filtrarGastoWeb);
 
 export{
     mostrarDatoEnId,
