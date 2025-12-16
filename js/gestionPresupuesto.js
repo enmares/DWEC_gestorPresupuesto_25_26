@@ -268,26 +268,19 @@ function agruparGastos(periodo='mes', etiquetas, fechaDesde, fechaHasta){
 
 function transformarListadoEtiquetas(string){
 
-    let valoresStringRegex = string.match(/(a-z)/);
-
-    let aux = '';
-    let array = [];
-
-    for(let i=0; i<string.length; i++){
-
-        if(string[i] in valoresStringRegex){
-            array.push(aux);
-            aux = '';
-        }
-        else{
-            aux += string[i];
-        }
-
-        if(i == string.length-1){
-            array.push(aux);
-        }
+    let separadores = /[,\.:;\s]/;
+    let partes = string.split(separadores);
+    let resultado = [];
+  
+    for (let i = 0; i < partes.length; i++) {
+      
+      let elemento = partes[i].trim();
+  
+      if (elemento.length > 0) {
+        resultado.push(elemento);
+      }
     }
-    return array;
+    return resultado;
 
 }
 
