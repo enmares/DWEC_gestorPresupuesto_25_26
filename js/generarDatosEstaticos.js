@@ -30,6 +30,7 @@ funcs.mostrarGastoWeb('listado-gastos-filtrado-4', funcs2.filtrarGastos({etiquet
 funcs.mostrarGastosAgrupadosWeb('agrupacion-dia', funcs2.agruparGastos('dia'), 'día');
 funcs.mostrarGastosAgrupadosWeb('agrupacion-mes', funcs2.agruparGastos('mes'), 'mes');
 funcs.mostrarGastosAgrupadosWeb('agrupacion-anyo', funcs2.agruparGastos('anyo'), 'anyo');
+funcs.filtrarGastoWeb();
 
 
 
