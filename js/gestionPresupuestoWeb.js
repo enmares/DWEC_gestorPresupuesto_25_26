@@ -6,11 +6,10 @@ function mostrarDatoEnId(idElemento, valor){
     document.getElementById(idElemento).innerHTML = valor;
 }
 
-function mostrarGastoWeb(idElemento, ...gasto){
+function mostrarGastoWeb(idElemento, objetoGasto){
 
     let elemento = document.getElementById(idElemento);
     elemento.innerHTML = "";
-    let objetoGasto = gasto[0];
     
     for(let i=0; i < objetoGasto.length; i++){
 
@@ -38,21 +37,25 @@ function mostrarGastoWeb(idElemento, ...gasto){
         divGasto.appendChild(gastoFecha);
         divGasto.appendChild(gastoValor);
 
-        for(let o=0; o<objetoGasto[i].etiquetas.length; o++){
+        if (objetoGasto[i].etiquetas){
 
-            let spanFecha = document.createElement('span');
-            spanFecha.className = 'gasto-etiquetas-etiqueta';
-            gastoEtiquetas.appendChild(spanFecha).innerHTML = objetoGasto[i].etiquetas[o];
-            divGasto.appendChild(gastoEtiquetas);
+            for(let o=0; o<objetoGasto[i].etiquetas.length; o++){
 
-            /* BORRAR ETIQUETA */
+                let spanFecha = document.createElement('span');
+                spanFecha.className = 'gasto-etiquetas-etiqueta';
+                gastoEtiquetas.appendChild(spanFecha).innerHTML = objetoGasto[i].etiquetas[o];
+                divGasto.appendChild(gastoEtiquetas);
+
+                /* BORRAR ETIQUETA */
+                
+                let objetoBorradoEtiqueta = new BorrarEtiquetasHandle();
+                objetoBorradoEtiqueta.gasto = objetoGasto[i];
+                objetoBorradoEtiqueta.etiqueta = objetoGasto[i].etiquetas[o];
+
+                spanFecha.addEventListener("click", objetoBorradoEtiqueta);
             
-            let objetoBorradoEtiqueta = new BorrarEtiquetasHandle();
-            objetoBorradoEtiqueta.gasto = objetoGasto[i];
-            objetoBorradoEtiqueta.etiqueta = objetoGasto[i].etiquetas[o];
-
-            spanFecha.addEventListener("click", objetoBorradoEtiqueta);
-        
+            }
+            
         }
 
         //ESTO FORMA PARTE DEL EJERCICIO 5 -------------------------
@@ -353,10 +356,20 @@ function filtrarGastoWeb(){
         let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
 
         let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
-        let valorMinimoNum = parseFloat(valorMinimo);
-
+        let valorMinimoNum;
+        if (valorMinimo !== "" && valorMinimo !== null && valorMinimo !== undefined) {
+            valorMinimoNum = parseFloat(valorMinimo);
+        } else {
+            valorMinimoNum = null;
+        }
+        
         let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;
-        let valorMaximoNum = parseFloat(valorMaximo);
+        let valorMaximoNum;
+        if (valorMaximo !== "" && valorMaximo !== null && valorMaximo !== undefined) {
+            valorMaximoNum = parseFloat(valorMaximo);
+        } else {
+            valorMaximoNum = null;
+        }
 
         let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
 
@@ -364,7 +377,7 @@ function filtrarGastoWeb(){
 
         let etiquetasTiene = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         let etiquetasTieneArray = [];
-        if(etiquetasTiene != null || etiquetasTiene != undefined){
+        if (etiquetasTiene && etiquetasTiene.trim() !== "") {
             etiquetasTieneArray = gesPresupuesto.transformarListadoEtiquetas(etiquetasTiene);
         }
 
@@ -377,8 +390,6 @@ function filtrarGastoWeb(){
             etiquetasTiene:etiquetasTieneArray
         }
 
-
-        repintar();
         let gastosFiltrados = gesPresupuesto.filtrarGastos(objetoGasto);
         mostrarGastoWeb('listado-gastos-completo', gastosFiltrados);
 
