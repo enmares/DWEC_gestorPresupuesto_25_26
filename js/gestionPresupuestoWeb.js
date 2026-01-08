@@ -397,6 +397,28 @@ function filtrarGastoWeb(){
 
 }
 
+function guardarGastosWeb(){
+
+    let gastosAlmacenados = gesPresupuesto.listarGastos();
+    localStorage.setItem("GestorGastosDWEC", JSON.stringify(gastosAlmacenados));
+
+}
+
+function cargarGastosWeb(){
+
+    let gastosAlmacenamiento = [];
+
+    if(localStorage.getItem("GestorGastosDWEC") != undefined){
+        gastosAlmacenamiento = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+        gesPresupuesto.cargarGastos(gastosAlmacenamiento);
+    }
+    else{
+        gesPresupuesto.cargarGastos(gastosAlmacenamiento);
+    }
+    repintar();
+
+}
+
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
 
@@ -409,6 +431,12 @@ botonAnyadirGastoForm.addEventListener("click", nuevoGastoWebFormulario);
 let formularioFiltrado = document.getElementById('formulario-filtrado');
 const botonFormularioFiltrado = formularioFiltrado.querySelector('button');
 botonFormularioFiltrado.addEventListener("click", filtrarGastoWeb);
+
+const botonGuardarGastos = document.getElementById('guardar-gastos');
+botonGuardarGastos.addEventListener("click", guardarGastosWeb);
+
+const botonCargarGastos = document.getElementById('cargar-gastos');
+botonCargarGastos.addEventListener("click", cargarGastosWeb);
 
 export{
     mostrarDatoEnId,

@@ -284,6 +284,20 @@ function transformarListadoEtiquetas(string){
 
 }
 
+function cargarGastos(gastosAlmacenamiento) {
+
+    gastos = [];
+    // Procesamos cada gasto del listado pasado a la función
+    for (let g of gastosAlmacenamiento) {
+        
+        let gastoRehidratado = new CrearGasto();
+
+        Object.assign(gastoRehidratado, g);
+
+        gastos.push(gastoRehidratado)
+    }
+}
+
 /*
 let date = new Date('2021-12-31');
 console.log(date.getMonth());
@@ -324,7 +338,8 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }
 
 
