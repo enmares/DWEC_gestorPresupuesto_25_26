@@ -85,6 +85,19 @@ function mostrarGastoWeb(idElemento, objetoGasto){
         objetoBorrador.gasto = objetoGasto[i];
 
         botonBorrar.addEventListener("click", objetoBorrador);
+        
+        /* BOTÓN BORRAR API*/
+
+            let botonBorrarApi = document.createElement('button');
+
+            botonBorrarApi.className = "gasto-borrar";
+            botonBorrarApi.innerHTML = "Borrar gasto";
+            divGasto.appendChild(botonBorrarApi);
+    
+            let objetoBorradorApi = new BorrarHandle(); /*Ojo con esto */
+            objetoBorradorApi.gasto = objetoGasto[i];
+    
+            botonBorrarApi.addEventListener("click", objetoBorradorApi);
 
         /* BOTÓN EDITAR */
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -419,6 +432,34 @@ function cargarGastosWeb(){
 
 }
 
+async function cargarGastosApi() {
+
+    let usuario = document.querySelector("#nombre_usuario").value.trim();
+
+    if (!usuario) {
+        alert("Error, debes introducir un usuario");
+        return;
+    }
+
+    try {
+        let response = await fetch(
+            `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Error al obtener los gastos");
+        }
+
+        let json = await response.json();
+
+        gesPresupuesto.cargarGastos(json);
+        repintar();
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 const botonActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
 
@@ -437,6 +478,9 @@ botonGuardarGastos.addEventListener("click", guardarGastosWeb);
 
 const botonCargarGastos = document.getElementById('cargar-gastos');
 botonCargarGastos.addEventListener("click", cargarGastosWeb);
+
+const cargarGastosApibtn = document.getElementById('cargar-gastos-api');
+cargarGastosApibtn.addEventListener("click", cargarGastosApi);
 
 export{
     mostrarDatoEnId,
