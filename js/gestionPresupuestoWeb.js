@@ -119,6 +119,15 @@ function mostrarGastoWeb(idElemento, objetoGasto){
             divGasto.append(formulario);
         })
 
+            /*BOTON ENVIAR GASTO (API) */
+
+            let botonEnviarFormApi = formulario.querySelector('.gasto-enviar-api'); //aquí tengo un queryselector, pero lo engancha del formulario
+
+            botonEnviarFormApi.addEventListener("click",()=>{
+                //AQUÍ HAY QUE HACER EL POST
+            } )
+
+
         /* BOTÓN CANCELAR EDICIÓN */
         let btnCancelarEdicion = formulario.querySelector("button.cancelar");
         let objetoCancelarEdicion = new CancelarEditarHandleFormulario();
@@ -451,6 +460,7 @@ async function cargarGastosApi() {
         }
 
         let json = await response.json();
+        // console.log(json);
 
         gesPresupuesto.cargarGastos(json);
         repintar();
