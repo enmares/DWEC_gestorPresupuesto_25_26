@@ -85,19 +85,6 @@ function mostrarGastoWeb(idElemento, objetoGasto){
         objetoBorrador.gasto = objetoGasto[i];
 
         botonBorrar.addEventListener("click", objetoBorrador);
-        
-        /* BOTÓN BORRAR API*/
-
-            let botonBorrarApi = document.createElement('button');
-
-            botonBorrarApi.className = "gasto-borrar";
-            botonBorrarApi.innerHTML = "Borrar gasto";
-            divGasto.appendChild(botonBorrarApi);
-    
-            let objetoBorradorApi = new BorrarHandle(); /*Ojo con esto */
-            objetoBorradorApi.gasto = objetoGasto[i];
-    
-            botonBorrarApi.addEventListener("click", objetoBorradorApi);
 
         /* BOTÓN EDITAR */
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -118,6 +105,15 @@ function mostrarGastoWeb(idElemento, objetoGasto){
             botonEditarFormulario.disabled = true;
             divGasto.append(formulario);
         })
+
+            /* BOTÓN BORRAR API*/
+
+            let botonBorrarApi = formulario.querySelector('.gasto-borrar-api');
+
+            let objetoBorradorApi = new BorrarHandleAPI(); /*Ojo con esto */
+            objetoBorradorApi.gasto = objetoGasto[i];
+    
+            botonBorrarApi.addEventListener("click", objetoBorradorApi);
 
             /*BOTON ENVIAR GASTO (API) */
 
@@ -150,8 +146,8 @@ function mostrarGastoWeb(idElemento, objetoGasto){
                     gesPresupuesto.cargarGastos(json);
                     repintar();
                 }
-                catch{
-                    alert('Error al crear el gasto');
+                catch(error){
+                    console.error(error);
                 }
             } )
 
@@ -263,6 +259,36 @@ function stringToArray(string){
     }
     return array;
 }
+
+function BorrarHandleAPI(){
+    
+    this.handleEvent = async function () {
+        let usuario = 'enriquemartinez';
+        let gastoId = this.gasto.gastoId;
+
+        try {
+            const response = await fetch(
+                `https://gestion-presupuesto-api.onrender.com/api/${usuario}/${gastoId}`,
+                {
+                    method: 'DELETE'
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el gasto');
+            }
+
+            console.log('Gasto eliminado correctamente');
+            gesPresupuesto.borrarGasto(this.gasto.id);
+            repintar();
+
+        } catch (error) {
+            console.error(error);
+            alert('No se pudo eliminar el gasto');
+        }
+    };
+} 
+
 
 function EditarHandle(){
 
