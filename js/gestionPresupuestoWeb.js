@@ -123,8 +123,36 @@ function mostrarGastoWeb(idElemento, objetoGasto){
 
             let botonEnviarFormApi = formulario.querySelector('.gasto-enviar-api'); //aquí tengo un queryselector, pero lo engancha del formulario
 
-            botonEnviarFormApi.addEventListener("click",()=>{
-                //AQUÍ HAY QUE HACER EL POST
+            let usuario = 'enriquemartinez';
+            botonEnviarFormApi.addEventListener("click",async()=>{
+                
+                let gastoJSON = JSON.stringify(objetoGasto[i]);
+                let options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: gastoJSON 
+                };
+
+                try{
+                    let response = await fetch(
+                        `https://gestion-presupuesto-api.onrender.com/api/${usuario}`, options
+                    );
+            
+                    if (!response.ok) {
+                        throw new Error("Error al crear el gasto");
+                    }
+            
+                    let json = await response.json();
+                    console.log("Creado " + json);
+            
+                    gesPresupuesto.cargarGastos(json);
+                    repintar();
+                }
+                catch{
+                    alert('Error al crear el gasto');
+                }
             } )
 
 
