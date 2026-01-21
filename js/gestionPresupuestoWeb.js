@@ -480,7 +480,7 @@ async function cargarGastosApi() {
 
     try {
         let response = await fetch(
-            `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`
+            `https://gestion-presupuesto-api.onrender.com/api/${usuario}`
         );
 
         if (!response.ok) {
