@@ -144,6 +144,7 @@ function mostrarGastoWeb(idElemento, objetoGasto){
                     console.log("Creado " + json);
             
                     gesPresupuesto.cargarGastos(json);
+                    cargarGastosApi();
                     repintar();
                 }
                 catch(error){
@@ -280,6 +281,7 @@ function BorrarHandleAPI(){
 
             console.log('Gasto eliminado correctamente');
             gesPresupuesto.borrarGasto(this.gasto.id);
+            cargarGastosApi();
             repintar();
 
         } catch (error) {
@@ -412,6 +414,42 @@ function nuevoGastoWebFormulario(){
         let etiquetasArray = stringToArray(etiquetasString);
     
         let gastoNuevo = new gesPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetasArray);
+
+        let botonEnviarFormApi = formulario.querySelector('.gasto-enviar-api');
+
+            let usuario = document.querySelector("#nombre_usuario").value.trim();
+            botonEnviarFormApi.addEventListener("click",async()=>{
+                
+                let gastoJSON = JSON.stringify(gastoNuevo);
+                let options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: gastoJSON 
+                };
+
+                try{
+                    let response = await fetch(
+                        `https://gestion-presupuesto-api.onrender.com/api/${usuario}`, options /*REVISAR TODO ESTOOOOOOOOO */
+                    );
+            
+                    if (!response.ok) {
+                        throw new Error("Error al crear el gasto");
+                    }
+            
+                    let json = await response.json();
+                    console.log("Creado " + json);
+            
+                    gesPresupuesto.cargarGastos(json);
+                    cargarGastosApi();
+                    repintar();
+                }
+                catch(error){
+                    console.error(error);
+                }
+            } )
+
         gesPresupuesto.anyadirGasto(gastoNuevo);
     
         repintar();

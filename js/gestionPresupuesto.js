@@ -154,7 +154,7 @@ function calcularTotalGastos(){
     let sum=0;
 
     for(let i=0; i < gastos.length; i++){
-        aux = gastos[i].valor;
+        aux = Number(gastos[i].valor);
         sum += aux;
     }
     return sum;
