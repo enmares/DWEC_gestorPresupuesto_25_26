@@ -398,7 +398,7 @@ function EnviarGastoAPI(){
         let valor = parseFloat(valorString);
         let etiquetasArray = stringToArray(etiquetasString);
     
-        let gastoNuevo = new gesPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetasArray);
+        let gastoNuevo = {descripcion, valor, fecha, etiquetas : etiquetasArray};
 
         // let usuario = 'enriquemartinez';
         let usuario = document.querySelector("#nombre_usuario").value.trim();
@@ -426,10 +426,13 @@ function EnviarGastoAPI(){
     
             gesPresupuesto.cargarGastos(json);
             cargarGastosApi();
+            document.getElementById('anyadirgasto-formulario').disabled = false;
+            this.formulario.remove();
             repintar();
         }
         catch(error){
             console.error(error);
+            alert(error);
         }
     } }
 

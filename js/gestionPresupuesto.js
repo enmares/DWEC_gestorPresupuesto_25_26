@@ -287,6 +287,10 @@ function transformarListadoEtiquetas(string){
 function cargarGastos(gastosAlmacenamiento) {
 
     gastos = [];
+    
+    if (!Array.isArray(gastosAlmacenamiento)) {
+        gastosAlmacenamiento = [gastosAlmacenamiento];
+    }
     // Procesamos cada gasto del listado pasado a la función
     for (let g of gastosAlmacenamiento) {
         
