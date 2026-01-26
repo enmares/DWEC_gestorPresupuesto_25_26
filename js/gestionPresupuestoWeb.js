@@ -115,42 +115,19 @@ function mostrarGastoWeb(idElemento, objetoGasto){
     
             botonBorrarApi.addEventListener("click", objetoBorradorApi);
 
-            /*BOTON ENVIAR GASTO (API) */
+            /*BOTON EDITAR GASTO (API) */
 
-            let botonEnviarFormApi = formulario.querySelector('.gasto-enviar-api'); //aquí tengo un queryselector, pero lo engancha del formulario
+            let botonEditarFormApi = formulario.querySelector('.gasto-editar-formulario'); //aquí tengo un queryselector, pero lo engancha del formulario
 
-            let usuario = 'enriquemartinez';
-            botonEnviarFormApi.addEventListener("click",async()=>{
-                
-                let gastoJSON = JSON.stringify(objetoGasto[i]);
-                let options = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: gastoJSON 
-                };
+            let objetoEditorApi = new EditarHandleApi();
+            objetoEditorApi.gasto = objetoGasto[i];
+            objetoEditorApi.form = formulario;
 
-                try{
-                    let response = await fetch(
-                        `https://gestion-presupuesto-api.onrender.com/api/${usuario}`, options
-                    );
-            
-                    if (!response.ok) {
-                        throw new Error("Error al crear el gasto");
-                    }
-            
-                    let json = await response.json();
-                    console.log("Creado " + json);
-            
-                    gesPresupuesto.cargarGastos(json);
-                    cargarGastosApi();
-                    repintar();
-                }
-                catch(error){
-                    console.error(error);
-                }
-            } )
+            botonEditarFormApi.addEventListener("click", objetoEditorApi)
+            botonEditarFormApi.addEventListener("click", function (){
+                botonEditarFormApi.disabled = true;
+                divGasto.append(formulario);
+            })
 
 
         /* BOTÓN CANCELAR EDICIÓN */
@@ -383,6 +360,75 @@ function CancelarEditarHandleFormulario(){
         this.form.querySelector("button.cancelar").disabled = false;
         this.form.remove();
         repintar();
+    }
+}
+
+function EditarHandleApi(){
+
+    this.handleEvent = function(){
+
+        let usuario = document.querySelector("#nombre_usuario").value.trim();
+        let gastoId = this.gasto.gastoId;
+
+        //apartado de edición
+
+        this.form.elements["descripcion"].value = this.gasto.descripcion;
+        this.form.elements["valor"].value = this.gasto.valor;
+
+        let fechaObjeto = new Date(this.gasto.fecha);
+        let dia = String(fechaObjeto.getDate()).padStart(2, "0");
+        let mes = String(fechaObjeto.getMonth()+1).padStart(2, "0");
+        let anyo = fechaObjeto.getFullYear();
+        let fechaString = anyo + "-" + mes + "-" + dia;
+
+        this.form.elements["fecha"].value = fechaString;
+        this.form.elements["etiquetas"].value = this.gasto.etiquetas;
+
+        this.form.addEventListener("submit", async (e)=> {  //si no es con función flecha no pilla el this. de la instancia del objeto gasto
+
+            e.preventDefault();
+            
+            this.gasto.descripcion = this.form.elements["descripcion"].value;
+
+            let valor = Number(this.form.elements["valor"].value);
+            this.gasto.valor = valor;
+            
+            this.gasto.fecha = this.form.elements["fecha"].value;
+
+            let arrayEtiquetas = stringToArray(this.form.elements["etiquetas"].value);
+            this.gasto.etiquetas = arrayEtiquetas;
+
+            try {
+                const response = await fetch(
+                    `https://gestion-presupuesto-api.onrender.com/api/${usuario}/${gastoId}`,
+                    {
+                        method: 'PUT',
+                        headers: {'Content-Type':
+                         'application/json'},
+                        body: {
+                            
+                        }
+                    }
+                );
+    
+                if (!response.ok) {
+                    throw new Error('Error al editar el gasto');
+                }
+    
+                console.log('Gasto editardo correctamente');
+                cargarGastosApi();
+                repintar();
+    
+            } catch (error) {
+                console.error(error);
+                alert('No se pudo editar el gasto');
+            }
+    
+            repintar();
+            
+        })
+
+       
     }
 }
 
