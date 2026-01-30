@@ -148,6 +148,13 @@ function mostrarGastoWeb(idElemento, objetoGasto){
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     
+    // Obtener la capa donde se muestran los datos agrupados por el período indicado.
+    // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
+    // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
+    var divP = document.getElementById(idElemento);
+    // Borrar el contenido de la capa para que no se duplique el contenido al repintar
+    divP.innerHTML = "";
+
     let elemento = document.getElementById(idElemento);
 
     let agrupBox = document.createElement('div');
@@ -164,7 +171,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     agrupBox.appendChild(h1gasto);
 
     for(let i=0; i<Object.keys(agrup).length; i++){
-        
+
         let agrupDato = document.createElement('div');
         agrupDato.className = 'agrupacion-dato';
 
@@ -185,6 +192,68 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
     elemento.appendChild(agrupBox);
 
+    //PRÁCTICA LIBRERÍAS
+
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
+
 }
 
 function repintar(){
@@ -194,6 +263,10 @@ function repintar(){
     mostrarDatoEnId('balance-total', gesPresupuesto.calcularBalance());
     document.getElementById('listado-gastos-completo').innerHTML = '';
     mostrarGastoWeb('listado-gastos-completo', gesPresupuesto.listarGastos());
+
+    mostrarGastosAgrupadosWeb('agrupacion-dia', gesPresupuesto.agruparGastos('dia'), 'día');
+    mostrarGastosAgrupadosWeb('agrupacion-mes', gesPresupuesto.agruparGastos('mes'), 'mes');
+    mostrarGastosAgrupadosWeb('agrupacion-anyo', gesPresupuesto.agruparGastos('anyo'), 'año');
 }
 
 function actualizarPresupuestoWeb(){
@@ -471,9 +544,11 @@ function nuevoGastoWebFormulario(){
     let botonEnviarFormApi = formulario.querySelector('.gasto-enviar-api');
     let handleEnviarGastoAPI = new EnviarGastoAPI();
     handleEnviarGastoAPI.formulario = formulario;
-    botonEnviarFormApi.addEventListener("click", handleEnviarGastoAPI)
+    botonEnviarFormApi.addEventListener("click", handleEnviarGastoAPI);
 
-    botonAnyadirGastoForm.addEventListener("click",function(event){
+    let botonEnviarForm = formulario.querySelector('button[type="submit"]'); //aquí he metido este truco para pillar el submit
+
+    botonEnviarForm.addEventListener("click",function(event){
 
         event.preventDefault();
 
@@ -491,7 +566,7 @@ function nuevoGastoWebFormulario(){
     
         repintar();
         botonAnyadirGastoForm.disabled = false;
-        event.currentTarget.remove();
+        formulario.remove();
         });
 }
 
